@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Exercise 3</title>
+
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    
+    <script>
+        $(document).ready(function(){
+            $.ajax({
+            type: "GET", 
+            url: "flight.xml",
+            dataType: "xml",
+            success: bookSeats
+        });
+            // literal method to create objects
+            var flight = {
+                flightno : AC456,
+                capacity : 135,
+                reservedSeats : 100 
+			};                   
+            
+    
+            // Constructor method to create objects
+            function flight(flightno, capacity, reservedSeats){
+                this.flightno = flightno;
+                this.capacity = capacity;
+                this.reservedSeats = reservedSeats;
+
+                 var newFlight = new flight();
+
+                function bookSeats(){
+
+                    if(capacity > reservedSeats) {
+                        // alert("Total " + document.reservedSeats.value + " seats are reserved. " );
+                        return "Flight number : " + flight.flightno + "<br> " 
+                        +  "Max capacity : "  + flight.capacity + "<br>"
+                        + bookSeats(reservedSeats) + " seats are reserved <br>";
+
+                    } 
+                    else if(capacity == reservedSeats) {
+                        // alert ("All seats are reserved.");
+
+
+                    } 
+                    else if(capacity < reservedSeats  ) {
+                        alert ("Over booking !!");
+                    } 
+                    
+};
+                this.getInfo = function(){
+                    return "Flight number : " + flight.flightno + "<br> " 
+                        +  "Max capacity : "  + flight.capacity + "<br>"
+                        + bookSeats(reservedSeats) + " seats are reserved <br>";
+                }
+
+        };
+
+
+            //  var newFlight = new flight();
+            // $("#info").html(newFlight.getInfo());
+
+            // var india = new country("India", "Hindi", "Delhi");
+            // $("#home").html(india.getInfo());
+            
+            // country.prototype.population = "2 milion";
+            // var peeps = country.prototype.population;
+            
+            // $("#peeps").html(canada.getInfo() + " population " + peeps);
+
+
+        });
+    </script>
+
+</head>
+
+<body>
+    <h1> Flight Information </h1>
+    <h2 id="info">  </h2>
+    <div>
+				<form>
+					<div data-role="rangeslider">
+						<label for="range1">Rangerslider: </label>
+						<input type="range" name="range1" id="range1" min="0" max="160" value="60">
+
+						<label for="range2">Rangerslider: </label>
+						<input type="range" name="range2" id="range2" min="0" max="155" value="100"						
+					</div>
+				</form>
+			</div>
+</body>
+</html>
