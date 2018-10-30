@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>More jQuery Mobile</title>
+
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    
+    <script>
+    $(document).ready(function() {
+        $.ajax({
+            type: "GET", 
+            url: "flight.xml",
+            dataType: "xml",
+            success: bookSeats
+        });
+    function flight(flightNo, capacity, countSeats) {
+        this.flightNo = flightNo;
+        this.capacity = capacity;
+        this.countSeats = countSeats;
+    };
+
+    
+    var flightArr = new Array();
+
+    function bookSeats(xml) {
+        $(xml).find("dailyFlight").each(function() {
+
+            var flightno = $(this).find("flightNo").text();
+            var maxcap = $(this).find("capacity").text();
+            var count = $(this).find("countSeats").text(); 
+
+            // Use the script to instantiate a flight object
+            var newFlight = new flight (flightno, maxcap, count) ;
+            flightArr.push(newFlight);
+             });
+
+
+             $("#no").html("");
+             var len = flightArr.length;
+             for(var i=0; i < len ; i++) {
+                 $("#no").append(
+                    flightArr[i].flightNo + " " + flightArr[i].capacity + " " + flightArr[i].countSeats + "<br>"); 
+             }
+        };
+    });
+    </script>
+</head>
+<body>
+    <h1> Flight Reservation Information </h1>
+    <h2 id="no"> </h2>
+</body>
+</html>
