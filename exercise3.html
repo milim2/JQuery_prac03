@@ -12,47 +12,84 @@
     <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 
     <script>
-        $(document).ready(function(){
-       
+        $(document).ready(function(){      
            
             // literal method to create objects
-            var flight = {
-                flightno : AC456,
-                capacity : 150,
-                reservedSeats : 125 
-			};           
+            var flightJason = '{"flightno" : "AC456", "capacity" : "150", "reservedSeats" : "125"}';  
+
+            
+            var flightObj = JSON.parse(flightJason);
+                 
               
             // Constructor method to create objects
-            function bookSeats (flightno, capacity, reservedSeats){
+            function flight (flightno, capacity, reservedSeats){
                 this.flightno = flightno;
                 this.capacity = capacity;
                 this.reservedSeats = reservedSeats;
-            // Use the script to instantiate a flight object
-            var newFlight = new bookSeats(AC456, 135, 100);
-                    
-            $("#finfo").click(function(){  
+            };
 
-                   alert("Flight number : " + newFlight.flightno + "<br> " 
-                        +  "Max capacity : "  + newFlight.capacity + "<br>"
-                        + newFlight.reservedSeats + " seats are reserved <br>");
- 
-             });
-                            
+            // Use the script to instantiate a flight object
+           flightObj = new flight("AC456", 135, 100);       
+
+            // Use an alert to display the values of the properties
+            $("#finfo").click(function() {
+                 alert ( "Flight number : " + flightObj.flightno +  
+                         "\nMax capacity : "  + flightObj.capacity + "\n" +
+                         flightObj.reservedSeats + " seats are reserved ")
+                         });
+        
+          
+
+            function bookSeats(flight) {
+                this.capacity = Number(capacity);
+                this.reservedSeats = Number(reservedSeats);
+
+                if(capacity < reservedSeats) {
+                        alert ("OverBooked !!!");
+                        return false;
+                    }     
+                else if (capacity >= reservedSeats) {   
+                        return true;
+                }   
+
+    };
+
+           
+
+           
+            
 });
     </script>
 
 </head>
 
 <body>
-    <h1> Flight Information </h1>
-    <button class="ui-btn" id="finfo"> Tap to display available flight </button>
-    
-    <div>
-        <form>
-            <div data-role="rangeslider">
-                <label for="range1">Rangerslider: </label>
-                <input type="range" name="range1" id="range1" min="0" max="160" value="60">
 
-                <label for="range2">Rangerslider: </label>
-                <input type="range" name="range2" id="range2" min="0" max="155" value="100" </div> </form> </div> </body>
-                    </html>
+    <div data-role="page">
+
+        <header data-role="header">
+            <h1> Flight Information </h1>
+        </header>
+        <button class="ui-btn" id="finfo"> Tap to display available flight </button>
+
+        <section class="ui-content" role="main">
+            <div>
+               <form>
+                    <div data-role="rangeslider">
+                        <label for="range1"></label>
+                        <input type="range" name="range1" id="range1" min="0" max="160" value="60">
+
+                        <label for="range2"></label>
+                        <input type="range" name="range2" id="range2" min="0" max="155" value="100">
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <footer data-role="footer">
+            <h4>Let's do it.</h4>
+        </footer>
+    </div>
+</body>
+
+</html>
