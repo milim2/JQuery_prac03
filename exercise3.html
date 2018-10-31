@@ -33,46 +33,52 @@
 
             // Use an alert to display the values of the properties
             $("#finfo").click(function() {
-                 alert ( "Flight number : " + flightObj.flightno +  
-                         "\nMax capacity : "  + flightObj.capacity + "\n" +
-                         flightObj.reservedSeats + " seats are reserved ")
+                //  alert ( "Flight number : " + flightObj.flightno +  
+                //          "\nMax capacity : "  + flightObj.capacity + "\n" +
+                //          flightObj.reservedSeats + " seats are reserved ")
+                bookSeats();
                          });
-        
-          
 
-            function bookSeats(flight) {
+            var seats = $("#num").val();
+            $("#submit").click(function bookSeats(flightno, capacity, reservedSeats) { 
+
+                this.flightno = flightno;
                 this.capacity = Number(capacity);
-                this.reservedSeats = Number(reservedSeats);
+                this.reservedSeats = Number(reservedSeats) + Number(seats);
 
                 if(capacity < reservedSeats) {
                         alert ("OverBooked !!!");
                         return false;
                     }     
                 else if (capacity >= reservedSeats) {   
-                        return true;
+                         return reservedSeats;
+                        
                 }   
-
-    };
-
-           
-
-           
-            
-});
+                alert ( "Flight number : " + flightObj.flightno +  
+                         "\nMax capacity : "  + flightObj.capacity + "\n" +
+                         flightObj.reservedSeats + " seats are reserved ")
+            });   
+        });   
     </script>
-
 </head>
 
 <body>
 
     <div data-role="page">
-
         <header data-role="header">
             <h1> Flight Information </h1>
         </header>
-        <button class="ui-btn" id="finfo"> Tap to display available flight </button>
-
+        
         <section class="ui-content" role="main">
+        <div>
+            <form>
+                <button class="ui-btn" id="finfo"> Tap to check available seats </button>
+                
+				<label for="num"> Booking seats ??  </label>
+                <input type="text" name="num" id="num" >
+                <input type="submit" value="Submit" id="submit">
+            </form>
+        </div>
             <div>
                <form>
                     <div data-role="rangeslider">
