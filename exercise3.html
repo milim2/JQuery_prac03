@@ -1,6 +1,10 @@
+<!-- Exercise 3
+     Student Name: Milim Lee (991274533)
+ 	 Description: Create a web page using jQuery Mobile and OOP features
+-->
+
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,90 +16,83 @@
     <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 
     <script>
-        $(document).ready(function(){      
-           
-            // literal method to create objects
-            var flightJason = '{"flightno" : "AC456", "capacity" : "150", "reservedSeats" : "125"}';  
+        $(document).ready(function(){  
 
-            
-            var flightObj = JSON.parse(flightJason);
-                 
-              
+            // literal method to create objects
+            var flightLit = {
+                flightno : "AC456", 
+                capacity : 150, 
+                reservedSeats : 125
+                };  
+
+               
+            $("#litFlight").html("");
+            $("#litFlight").append("Flight No : " + flightLit.flightno)
+            .append("<br>Capacity : " + flightLit.capacity)
+            .append("<br>Reserved Seats : " + flightLit.reservedSeats);  
+          
             // Constructor method to create objects
-            function flight (flightno, capacity, reservedSeats){
+            function Flight (flightno, capacity, reservedSeats){
                 this.flightno = flightno;
                 this.capacity = capacity;
                 this.reservedSeats = reservedSeats;
-            };
+                this.getInfo = function(){
+                    return "Flight number : " + this.flightno + "\nMax capacity : "  + this.capacity + "\nReserved Seats : " + this.reservedSeats;
+                };
+                this.getBookSeats = function(){
+    
+                // The method should text that the number of seats booked 
+                // does not exceed the capacity of the flight
+                                                          
+                    var book_now = parseInt($("#num").val());;
+                    var book_val = parseInt(reservedSeats);var book_tot = book_now + book_val;   
+                    
+                if(this.capacity < book_tot) {
+                // If the number added to the reserved variable does exceed 
+                // the capacity, display an alert message
+                  return alert ("OverBooked !!!");
+                     
+                }     
+                else if (this.capacity >= book_tot) {   
+                    this.reservedSeats = book_tot;  
+                // If the number entered does not exceed the capacity, 
+                // increase the reserved variable
+                             
+                   alert ( this.getInfo());
+                }
+            }              
+        }; 
+         
+          // Creating flight instances
+          var flightObj = new Flight("AC456", 135, 100); 
+        
+         $("#newObj").html("");
+         $("#newObj").append("Flight No : " + flightObj.flightno)
+            .append("<br>Capacity : " + flightObj.capacity)
+            .append("<br>Reserved Seats : " + flightObj.reservedSeats);  
 
-            // Use the script to instantiate a flight object
-           flightObj = new flight("AC456", 135, 100);       
-
-            // Use an alert to display the values of the properties
-            $("#finfo").click(function() {
-                //  alert ( "Flight number : " + flightObj.flightno +  
-                //          "\nMax capacity : "  + flightObj.capacity + "\n" +
-                //          flightObj.reservedSeats + " seats are reserved ")
-                bookSeats();
-                         });
-
-            var seats = $("#num").val();
-            $("#submit").click(function bookSeats(flightno, capacity, reservedSeats) { 
-
-                this.flightno = flightno;
-                this.capacity = Number(capacity);
-                this.reservedSeats = Number(reservedSeats) + Number(seats);
-
-                if(capacity < reservedSeats) {
-                        alert ("OverBooked !!!");
-                        return false;
-                    }     
-                else if (capacity >= reservedSeats) {   
-                         return reservedSeats;
-                        
-                }   
-                alert ( "Flight number : " + flightObj.flightno +  
-                         "\nMax capacity : "  + flightObj.capacity + "\n" +
-                         flightObj.reservedSeats + " seats are reserved ")
-            });   
-        });   
+                $("#finfo").click(function (){
+                  flightObj.getBookSeats();
+              });         
+        
+     });
+              
     </script>
+    <style>
+        body {text-align: center; background: skyblue;}
+        h2 {color: darkblue;}
+    </style>
 </head>
 
-<body>
-
-    <div data-role="page">
-        <header data-role="header">
-            <h1> Flight Information </h1>
-        </header>
-        
-        <section class="ui-content" role="main">
-        <div>
-            <form>
-                <button class="ui-btn" id="finfo"> Tap to check available seats </button>
-                
-				<label for="num"> Booking seats ??  </label>
-                <input type="text" name="num" id="num" >
-                <input type="submit" value="Submit" id="submit">
-            </form>
-        </div>
-            <div>
-               <form>
-                    <div data-role="rangeslider">
-                        <label for="range1"></label>
-                        <input type="range" name="range1" id="range1" min="0" max="160" value="60">
-
-                        <label for="range2"></label>
-                        <input type="range" name="range2" id="range2" min="0" max="155" value="100">
-                    </div>
-                </form>
-            </div>
-        </section>
-
-        <footer data-role="footer">
-            <h4>Let's do it.</h4>
-        </footer>
-    </div>
+<body>    
+            <h2> Flight Reservation Information </h2>    
+                 <h4 id="litFlight"> </h4>            
+            <hr>
+            <h2 >New Flight RESV</h2>
+            <h4 id="newObj"></h4>
+            <h4>How many seats do you want to reserve?<input type="number" id="num" min="1"></span></h4>     
+            <button class="ui-btn" id="finfo"> Tap to check your reservation</button>
+            
 </body>
 
 </html>
